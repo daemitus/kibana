@@ -1,0 +1,14 @@
+title: ssl
+type: object
+properties:
+  certificate_authorities:
+    type: array
+    items:
+      type: string
+  certificate:
+    type: string
+  key:
+    type: string
+  verification_mode:
+    type: string
+    enum: ['none', 'full', 'certificate', 'strict']

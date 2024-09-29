@@ -1,0 +1,11 @@
+title: ssl
+type: object
+properties:
+  certificate_authorities:
+    type: array
+    items:
+      type: string
+  certificate:
+    type: string
+  key:
+    type: string

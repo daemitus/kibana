@@ -24,5 +24,4 @@ properties:
     $ref: ./output_remote_elasticsearch_secrets.yaml
 required:
   - name
-  - hosts
   - type

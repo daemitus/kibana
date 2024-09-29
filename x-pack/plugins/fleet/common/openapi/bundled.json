@@ -8506,6 +8506,51 @@
           }
         }
       },
+      "output_elasticsearch_ssl": {
+        "title": "ssl",
+        "type": "object",
+        "properties": {
+          "certificate_authorities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "certificate": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "output_shipper": {
+        "title": "shipper",
+        "type": "object",
+        "properties": {
+          "disk_queue_enabled": {
+            "type": "boolean"
+          },
+          "disk_queue_path": {
+            "type": "string"
+          },
+          "disk_queue_max_size": {
+            "type": "number"
+          },
+          "disk_queue_encryption_enabled": {
+            "type": "boolean"
+          },
+          "disk_queue_compression_enabled": {
+            "type": "boolean"
+          },
+          "compression_level": {
+            "type": "number"
+          },
+          "loadbalance": {
+            "type": "boolean"
+          }
+        }
+      },
       "output_create_request_elasticsearch": {
         "title": "elasticsearch",
         "type": "object",
@@ -8560,55 +8605,107 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_elasticsearch_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           }
         },
         "required": [
-          "name"
+          "name",
+          "hosts",
+          "type"
         ]
+      },
+      "output_kafka_ssl": {
+        "title": "ssl",
+        "type": "object",
+        "properties": {
+          "certificate_authorities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "certificate": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "verification_mode": {
+            "type": "string",
+            "enum": [
+              "none",
+              "full",
+              "certificate",
+              "strict"
+            ]
+          }
+        }
+      },
+      "output_kafka_sasl": {
+        "title": "sasl",
+        "type": "object",
+        "properties": {
+          "mechanism": {
+            "type": "string"
+          }
+        }
+      },
+      "output_kafka_random": {
+        "title": "random",
+        "type": "object",
+        "properties": {
+          "group_events": {
+            "type": "number"
+          }
+        }
+      },
+      "output_kafka_round_robin": {
+        "title": "round_robin",
+        "type": "object",
+        "properties": {
+          "group_events": {
+            "type": "number"
+          }
+        }
+      },
+      "output_kafka_header": {
+        "title": "header",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "output_kafka_secrets_ssl": {
+        "title": "ssl",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "output_kafka_secrets": {
+        "title": "secrets",
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "ssl": {
+            "$ref": "#/components/schemas/output_kafka_secrets_ssl"
+          }
+        }
       },
       "output_create_request_kafka": {
         "title": "kafka",
@@ -8654,59 +8751,13 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              },
-              "verification_mode": {
-                "type": "string",
-                "enum": [
-                  "none",
-                  "full",
-                  "certificate",
-                  "strict"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           },
           "version": {
             "type": "string"
@@ -8740,31 +8791,16 @@
             "type": "string"
           },
           "sasl": {
-            "type": "object",
-            "properties": {
-              "mechanism": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_sasl"
           },
           "partition": {
             "type": "string"
           },
           "random": {
-            "type": "object",
-            "properties": {
-              "group_events": {
-                "type": "number"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_random"
           },
           "round_robin": {
-            "type": "object",
-            "properties": {
-              "group_events": {
-                "type": "number"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_round_robin"
           },
           "topic": {
             "type": "string"
@@ -8798,15 +8834,7 @@
           "headers": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string"
-                },
-                "value": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/components/schemas/output_kafka_header"
             }
           },
           "timeout": {
@@ -8819,20 +8847,7 @@
             "type": "number"
           },
           "secrets": {
-            "type": "object",
-            "properties": {
-              "password": {
-                "type": "string"
-              },
-              "ssl": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_secrets"
           }
         },
         "required": [
@@ -8842,6 +8857,42 @@
           "auth_type",
           "hosts"
         ]
+      },
+      "output_logstash_ssl": {
+        "title": "ssl",
+        "type": "object",
+        "properties": {
+          "certificate_authorities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "certificate": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "output_logstash_secrets_ssl": {
+        "title": "ssl",
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "output_logstash_secrets": {
+        "title": "secrets",
+        "type": "object",
+        "properties": {
+          "ssl": {
+            "$ref": "#/components/schemas/output_logstash_secrets_ssl"
+          }
+        }
       },
       "output_create_request_logstash": {
         "title": "logstash",
@@ -8887,63 +8938,16 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_logstash_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           },
           "secrets": {
-            "type": "object",
-            "properties": {
-              "ssl": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/output_logstash_secrets"
           }
         },
         "required": [
@@ -8951,6 +8955,15 @@
           "hosts",
           "type"
         ]
+      },
+      "output_remote_elasticsearch_secrets": {
+        "title": "secrets",
+        "type": "object",
+        "properties": {
+          "service_token": {
+            "type": "string"
+          }
+        }
       },
       "output_create_request_remote_elasticsearch": {
         "title": "remote_elasticsearch",
@@ -8987,16 +9000,13 @@
             "type": "string"
           },
           "secrets": {
-            "type": "object",
-            "properties": {
-              "service_token": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_remote_elasticsearch_secrets"
           }
         },
         "required": [
-          "name"
+          "name",
+          "hosts",
+          "type"
         ]
       },
       "output_create_request": {
@@ -9079,55 +9089,17 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_elasticsearch_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           }
         },
         "required": [
           "name",
-          "hosts",
           "type"
         ]
       },
@@ -9175,59 +9147,13 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              },
-              "verification_mode": {
-                "type": "string",
-                "enum": [
-                  "none",
-                  "full",
-                  "certificate",
-                  "strict"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           },
           "version": {
             "type": "string"
@@ -9261,31 +9187,16 @@
             "type": "string"
           },
           "sasl": {
-            "type": "object",
-            "properties": {
-              "mechanism": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_sasl"
           },
           "partition": {
             "type": "string"
           },
           "random": {
-            "type": "object",
-            "properties": {
-              "group_events": {
-                "type": "number"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_random"
           },
           "round_robin": {
-            "type": "object",
-            "properties": {
-              "group_events": {
-                "type": "number"
-              }
-            }
+            "$ref": "#/components/schemas/output_kafka_round_robin"
           },
           "topic": {
             "type": "string"
@@ -9319,15 +9230,7 @@
           "headers": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string"
-                },
-                "value": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/components/schemas/output_kafka_header"
             }
           },
           "timeout": {
@@ -9341,7 +9244,8 @@
           }
         },
         "required": [
-          "name"
+          "name",
+          "type"
         ]
       },
       "output_update_request_logstash": {
@@ -9388,54 +9292,61 @@
             "type": "string"
           },
           "ssl": {
-            "type": "object",
-            "properties": {
-              "certificate_authorities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "certificate": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/output_logstash_ssl"
           },
           "proxy_id": {
             "type": "string"
           },
           "shipper": {
-            "type": "object",
-            "properties": {
-              "disk_queue_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_path": {
-                "type": "string"
-              },
-              "disk_queue_max_size": {
-                "type": "number"
-              },
-              "disk_queue_encryption_enabled": {
-                "type": "boolean"
-              },
-              "disk_queue_compression_enabled": {
-                "type": "boolean"
-              },
-              "compression_level": {
-                "type": "number"
-              },
-              "loadbalance": {
-                "type": "boolean"
-              }
-            }
+            "$ref": "#/components/schemas/output_shipper"
           }
         },
         "required": [
-          "name"
+          "name",
+          "type"
+        ]
+      },
+      "output_update_request_remote_elasticsearch": {
+        "title": "remote_elasticsearch",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "is_default_monitoring": {
+            "type": "boolean"
+          },
+          "is_internal": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "remote_elasticsearch"
+            ]
+          },
+          "hosts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "service_token": {
+            "type": "string"
+          },
+          "secrets": {
+            "$ref": "#/components/schemas/output_remote_elasticsearch_secrets"
+          }
+        },
+        "required": [
+          "name",
+          "type"
         ]
       },
       "output_update_request": {
@@ -9449,6 +9360,9 @@
           },
           {
             "$ref": "#/components/schemas/output_update_request_logstash"
+          },
+          {
+            "$ref": "#/components/schemas/output_update_request_remote_elasticsearch"
           }
         ],
         "discriminator": {
@@ -9456,7 +9370,8 @@
           "mapping": {
             "elasticsearch": "#/components/schemas/output_update_request_elasticsearch",
             "kafka": "#/components/schemas/output_update_request_kafka",
-            "logstash": "#/components/schemas/output_update_request_logstash"
+            "logstash": "#/components/schemas/output_update_request_logstash",
+            "remote_elasticsearch": "#/components/schemas/output_update_request_remote_elasticsearch"
           }
         }
       },

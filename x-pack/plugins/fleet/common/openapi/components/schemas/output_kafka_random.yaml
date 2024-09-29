@@ -1,0 +1,5 @@
+title: random
+type: object
+properties:
+  group_events:
+    type: number
